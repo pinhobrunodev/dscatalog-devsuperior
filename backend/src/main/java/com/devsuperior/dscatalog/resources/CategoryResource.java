@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,6 +34,11 @@ public class CategoryResource {
 	public ResponseEntity<List<CategoryDTO>> findAll() {
 		return ResponseEntity.ok().body(service.findAll());
 
+	}
+	
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<CategoryDTO> update(@PathVariable Long id,@RequestBody CategoryDTO dto) {
+		return ResponseEntity.ok().body(service.update(id,dto));
 	}
 
 	@PostMapping

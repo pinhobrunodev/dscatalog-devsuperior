@@ -10,7 +10,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.EmptyResultDataAccessException;
 
 import com.devsuperior.dscatalog.entities.Product;
-import com.devsuperior.dscatalog.tests.factory.ProductFactory;
+import com.devsuperior.dscatalog.tests.factory.Factory;
 
 @DataJpaTest
 public class ProductRepositoryTests {
@@ -46,7 +46,7 @@ public class ProductRepositoryTests {
 
 	@Test
 	public void saveShouldPersistWithAutoincrementWhenIdIsNull() {
-		Product product = ProductFactory.createProduct();
+		Product product = Factory.createProduct();
 		product.setId(null);
 		product = repository.save(product);
 		// Testar se nao vai ser null

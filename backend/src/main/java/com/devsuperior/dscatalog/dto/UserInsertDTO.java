@@ -2,6 +2,7 @@ package com.devsuperior.dscatalog.dto;
 
 public class UserInsertDTO extends UserDTO {
 
+
     private String password;
 
 

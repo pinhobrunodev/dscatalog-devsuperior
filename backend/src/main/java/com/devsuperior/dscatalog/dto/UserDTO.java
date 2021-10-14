@@ -1,12 +1,12 @@
 package com.devsuperior.dscatalog.dto;
 
-import com.devsuperior.dscatalog.entities.Role;
-import com.devsuperior.dscatalog.entities.User;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import java.util.HashSet;
-import java.util.Set;
+
+import com.devsuperior.dscatalog.entities.User;
 
 public class UserDTO {
 

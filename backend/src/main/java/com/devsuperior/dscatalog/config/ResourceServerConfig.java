@@ -2,6 +2,7 @@ package com.devsuperior.dscatalog.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
@@ -9,17 +10,23 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
+import java.util.Arrays;
+
 @Configuration
 @EnableResourceServer
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
+
+    // Ambiente de configuracao da minha aplicacao
+    @Autowired
+    private Environment environment;
 
     // Preciso do bean do TokenStore
     @Autowired
     private JwtTokenStore tokenStore;
 
     // ENDPOINTS PUBLICOS
-    private static final String[] PUBLIC = {"/oauth/token"};
+    private static final String[] PUBLIC = {"/oauth/token", "/h2-console/**"};
     // ENDPOINTS PADRAO PARA OPERATOR OU ADMIN
     private static final String[] OPERATOR_OR_ADMIN = {"/products/**", "/categories/**"};
     // ENDPOINTS SOMENTE PARA ADMIN
@@ -40,6 +47,11 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
      */
     @Override
     public void configure(HttpSecurity http) throws Exception {
+        // Se estou um rodando profile test , eu quero rodar o banco H2
+        if(Arrays.asList(environment.getActiveProfiles()).contains("test")){
+            http.headers().frameOptions().disable();
+        }
+
        http.authorizeRequests()
                .antMatchers(PUBLIC).permitAll() // o endpoint /oauth/login publico
                .antMatchers(HttpMethod.GET,OPERATOR_OR_ADMIN).permitAll() // deixando publico so os GET de products e categories

@@ -37,8 +37,9 @@ public class ProductService {
 		List<Category> categories = (categoryId == 0 ) ? null :  Arrays.asList(categoryRepository.getOne(categoryId));
 		Page<Product> page = repository.find(categories,name,pageable);
 		repository.findProductsWithCategories(page.getContent());
-		// Trazendo com as categorias ja tratando o N+1 consultas : return page.map(x->new ProductDTO(x,x.getCategories()));
 		return page.map(ProductDTO::new);
+		// Trazendo com as categorias ja tratando o N+1 consultas : return page.map(x->new ProductDTO(x,x.getCategories()));
+
 	}
 
 	@Transactional(readOnly = true)

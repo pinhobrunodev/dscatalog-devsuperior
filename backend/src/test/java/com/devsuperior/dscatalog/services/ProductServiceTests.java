@@ -30,7 +30,7 @@ import com.devsuperior.dscatalog.repositories.CategoryRepository;
 import com.devsuperior.dscatalog.repositories.ProductRepository;
 import com.devsuperior.dscatalog.services.exceptions.DatabaseException;
 import com.devsuperior.dscatalog.services.exceptions.ResourceNotFoundException;
-import com.devsuperior.dscatalog.tests.factory.Factory;
+import com.devsuperior.dscatalog.tests.Factory;
 
 @ExtendWith(SpringExtension.class)
 public class ProductServiceTests {
@@ -76,6 +76,8 @@ public class ProductServiceTests {
 
 		Mockito.when(repository.findById(validId)).thenReturn(Optional.of(product));
 		Mockito.when(repository.findById(invalidId)).thenReturn(Optional.empty());
+		
+		Mockito.when(repository.find(ArgumentMatchers.any(),ArgumentMatchers.any(),ArgumentMatchers.any())).thenReturn(page);
 
 		Mockito.doNothing().when(repository).deleteById(validId);
 		Mockito.doThrow(EmptyResultDataAccessException.class).when(repository).deleteById(invalidId);
@@ -142,9 +144,8 @@ public class ProductServiceTests {
 	@Test
 	public void pagedSearchShouldReturnProductDTOPage() {
 		Pageable pageable = PageRequest.of(1, 10);
-		Page<ProductDTO> result = service.findAllPaged(validId,pageable);
+		Page<ProductDTO> result = service.findAllPaged("",0L,pageable);
 		Assertions.assertNotNull(result);
-		Mockito.verify(repository, times(1)).findAll(pageable);
 	}
 
 }

@@ -142,7 +142,7 @@ public class ProductServiceTests {
 	@Test
 	public void pagedSearchShouldReturnProductDTOPage() {
 		Pageable pageable = PageRequest.of(1, 10);
-		Page<ProductDTO> result = service.findAllPaged(pageable);
+		Page<ProductDTO> result = service.findAllPaged(validId,pageable);
 		Assertions.assertNotNull(result);
 		Mockito.verify(repository, times(1)).findAll(pageable);
 	}
